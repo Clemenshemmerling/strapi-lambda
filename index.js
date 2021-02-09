@@ -2,11 +2,15 @@ const startStrapi = require("strapi");
 
 const serverless = require("serverless-http");
 
+const strapiInstance = startStrapi();
+
+let strapiStartPromise = null;
+
 module.exports.handler = async (event, context) => {
-  if (!global.strapi) {
-    console.log("Cold starting Strapi");
-    await startStrapi({ dir: __dirname }).start();
+  if (strapiStartPromise === null) {
+    strapiStartPromise = strapiInstance.start();
   }
-  const handler = serverless(global.strapi.app);
+  await strapiStartPromise;
+  const handler = serverless(strapiInstance.app);
   return handler(event, context);
 };
