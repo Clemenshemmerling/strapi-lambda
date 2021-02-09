@@ -1,4 +1,4 @@
-const startStrapi = require("strapi/lib/Strapi");
+const startStrapi = require("strapi");
 
 const serverless = require("serverless-http");
 
